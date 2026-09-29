@@ -1,17 +1,8 @@
-FROM debian:12
-RUN apt-get update -yq \
-&& apt-get install curl gnupg -yq \
-&& curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-&& apt-get install nodejs -yq \
-&& apt-get clean -y 
-COPY . /app
-WORKDIR /app
+FROM node:20-alpine
+COPY package.json ./
 RUN npm install
+COPY . .
 EXPOSE 2026
-VOLUME /app/logs
+VOLUME app/logs
+USER node
 CMD ["npm", "run", "start"]
-
-
-
-
-
